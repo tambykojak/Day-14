@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Day 14</title>
+    <meta charset="utf-8">
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+    <style type="text/css">
+      .cover-image img {
+        height: 200px;
+      }
+    </style>
+    <link rel='stylesheet' href='../remark.css'>
+  </head>
+  <body>
+    <textarea id="source">
+
+      class: center, middle
+
+      # Day 14
+      ## Computer Science Fundamentals
+
+      .cover-image[ ![image](http://www.cuded.com/wp-content/uploads/2014/04/sad-face3.png) ]
+
+      ---
+
+      # Last Class
+
+      * Red-Black Trees
+      * Intro to Graphs
+
+      # This Class
+
+      * Graphs continued...
+
+      ---
+
+      # Review
+
+      Graphs are a data structure that can be represented by
+      * A <b>set</b> of Nodes. <i>Also called Vertices.</i>
+      * A <b>set</b> of Edges or Arcs.
+
+      ---
+
+      # Review
+
+      #### Directed vs Undirected
+      * Directed graphs (also called Digraphs) are graphs that use ordered pairs how nodes are connected.
+        * Up to two data points that represent Node A is connected to Node B and Node B is connected to Node A.
+        * Represented using parenthesis: (A, B), (B, A)
+        * (A, B) != (B, A)
+      * Undirected graphs are graphs that use unordered pairs to represent how nodes are connected.
+        * Only one data point that states Node A and Node B are connected.
+        * Represented using curly braces: {A, B}
+        * {A, B} = {B, A}
+
+      ---
+
+      # Review
+
+      #### Weighted vs Unweighted
+      * A weighted graph is a graph with edges that have a value assigned to each edge. This value typically represents the "difficulty" of traversing through that edge.
+        * If you were representing a bunch of cities in a graph, you may consider the distance between each city the weight.
+      * An unweighted graph is a graph where the edges/arcs all have the same weight, most of the time this is just a weight of 0.
+
+      ---
+
+      # "Weird" Edges
+
+      * An edge can point to itself. This is called a <b>Self-loop</b>. Reference: Internet Crawlers
+
+      * There can be multiple edges from that represent the same pair of nodes. This is called a <b>Multi Edge</b>. Reference: Flights from and to the same places but with different prices.
+
+      ---
+
+      ## Calculating the maximum number of edges.
+
+      <i>Where n represents the number of verticies</i>
+
+      * Directed Graphs: n(n - 1)
+      * Undirected n(n - 1) / 2
+
+      ---
+
+      # Other Graph Classifications
+
+      * <b>Dense vs. Sparse:</b> A graph is considered dense if the number of edges in the graph are close to the maximum number of edges. The opposite scenario is considered a sparse graph.
+      * This classification is important because it'll change our approach to representing our graph in code.
+      * Most real life graphs are sparse.
+
+      ---
+
+      ```python
+      class GraphNode:
+          def __init__(self, value):
+              self.value
+
+      class GraphEdge:
+          def __init__(self, first_node, second_node, weight):
+              self.first_node = first_node
+              self.second_node = second_node
+              self.weight = weight
+
+      class MyGraph:
+          def __init__(self):
+              self.verticies = ["A", "B", "C"]
+              self.edges = [
+                GraphEdge("A", "B", 10),
+                GraphEdge("A", "C", 15),
+                GraphEdge("B", "C", 20)
+              ]
+      ```
+
+      ---
+
+      ```python
+      class GraphNode:
+          def __init__(self, value):
+              self.value
+
+      class GraphEdge:
+          def __init__(self, first_node, second_node, weight):
+              self.first_node = first_node
+              self.second_node = second_node
+              self.weight = weight
+
+      class MyGraph:
+          def __init__(self):
+              self.verticies = ["A", "B", "C"]
+              self.edges = [
+                GraphEdge("A", "B", 10),
+                GraphEdge("A", "C", 15),
+                GraphEdge("B", "C", 20)
+              ]
+      ```
+
+      # What's the complexity of checking if Jack is friends with Jill in a graph?
+
+      ---
+
+      ```python
+      class GraphNode:
+          def __init__(self, value):
+              self.value
+
+      class GraphEdge:
+          def __init__(self, first_node, second_node, weight):
+              self.first_node = first_node
+              self.second_node = second_node
+              self.weight = weight
+
+      class MyGraph:
+          def __init__(self):
+              self.verticies = ["A", "B", "C"]
+              self.edges = [
+                GraphEdge("A", "B", 10),
+                GraphEdge("A", "C", 15),
+                GraphEdge("B", "C", 20)
+              ]
+      ```
+
+      # What's the complexity of getting all of Jack's friends?
+
+      ---
+
+      class: center, middle
+
+      # How can we make this better?
+
+      ---
+      class: center, middle
+
+      # Adjancency Matrix!
+
+      ---
+
+      ```python
+      class MyGraph:
+          def __init__(self):
+              self.verticies = [
+                  "A", "B", "C", "D", "E"
+              ]
+
+              self.matrix = [
+                  #A  B  C  D  E
+                  [0, 1, 1, 1, 1], # A
+                  [1, 0, 1, 0, 1], # B
+                  [1, 1, 0, 0, 0], # C
+                  [1, 0, 0, 0, 1], # D
+                  [1, 1, 0, 0, 0]  # E
+                ]
+      ```
+
+      ---
+
+      ```python
+      class MyGraph:
+          def __init__(self):
+              self.verticies = [
+                  "A", "B", "C", "D", "E"
+              ]
+
+              self.matrix = [
+                  #A  B  C  D  E
+                  [0, 1, 1, 1, 1], # A
+                  [1, 0, 1, 0, 1], # B
+                  [1, 1, 0, 0, 0], # C
+                  [1, 0, 0, 0, 1], # D
+                  [1, 1, 0, 0, 0]  # E
+                ]
+      ```
+
+      # What's the complexity of checking if Jack is friends with Jill in a graph?
+
+      ---
+
+      ```python
+      class MyGraph:
+          def __init__(self):
+              self.verticies = [
+                  "A", "B", "C", "D", "E"
+              ]
+
+              self.matrix = [
+                  #A  B  C  D  E
+                  [0, 1, 1, 1, 1], # A
+                  [1, 0, 1, 0, 1], # B
+                  [1, 1, 0, 0, 0], # C
+                  [1, 0, 0, 0, 1], # D
+                  [1, 1, 0, 0, 0]  # E
+                ]
+      ```
+
+      # What's the complexity of getting all of Jack's friends?
+
+      ---
+
+      ### Problems with Adjancency Matrices
+
+      * You're taking up memory for all the edges that do AND don't exist.
+      * This is okay if your graph is dense, but not okay if your graph is sparse.
+      * This is also okay if you have a very small number of verticies.
+
+
+      * For other cases, there is an in between solution called Adjancency Lists.
+
+      ---
+
+      ```python
+      class MyGraph:
+          def __init__(self):
+              self.graph = {
+                  "A" : ["B", "C", "D", "E"],
+                  "B" : ["A", "C", "E"],
+                  "C" : ["A", "B"],
+                  "D" : ["A", "E"],
+                  "E" : ["A", "B"]
+              }
+
+      ```
+
+      ---
+
+      ```python
+      class MyGraph:
+          def __init__(self):
+              self.graph = {
+                  "A" : ["B", "C", "D", "E"],
+                  "B" : ["A", "C", "E"],
+                  "C" : ["A", "B"],
+                  "D" : ["A", "E"],
+                  "E" : ["A", "B"]
+              }
+
+      ```
+
+      # What's the complexity of checking if Jack is friends with Jill in a graph?
+
+      ---
+
+      ```python
+      class MyGraph:
+          def __init__(self):
+              self.graph = {
+                  "A" : ["B", "C", "D", "E"],
+                  "B" : ["A", "C", "E"],
+                  "C" : ["A", "B"],
+                  "D" : ["A", "E"],
+                  "E" : ["A", "B"]
+              }
+
+      ```
+
+      # What's the complexity of getting all of Jack's friends?
+
+      ---
+
+      # In Summary
+
+      * Never use two lists to represent verticies and edges.
+      * When you have a dense graph or a "small" number of verticies, use adjanceny matrix.
+      * When you have a sparse graph (most of the time), use adjancency lists.
+
+      ---
+
+      # Graph Traversals
+
+      * Depth First
+      * Breadth First
+
+      ---
+
+      # Depth First Traversal
+
+      * Start at a node (passed as a start_point parameter)
+      * Process the start node and mark it visited.
+      * Add that node to stack S
+      * Loop while the stack is not empty
+        * peek at the top most item on the stack.
+        * find the first unvisited neighbor of that node
+        * Does an unvisted neighbor exist?
+          * Yes
+            * process that neighbor
+            * mark that neighbor as visited and append the neighbor to the stack
+          * No
+            * pop the top most item off the stack.
+
+      ---
+
+      # Breadth First Traversal
+
+      * Start at a node (passed as a param)
+      * Process the start node and mark it visited.
+      * Add the start node to Queue Q
+      * Loop while the queue is not empty.
+        * pop the first item off the queue
+        * For each neighbor n
+          * process neighbor n
+          * mark neighbor n as visited
+          * append neighbor n to our queue.
+
+      ---
+      
+      class: center, middle
+
+      # Thank You
+
+    </textarea>
+    <script src="../remark.js"></script>
+  </body>
+</html>
